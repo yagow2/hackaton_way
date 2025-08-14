@@ -39,10 +39,11 @@ payload = {
     "parameters": {"max_new_tokens": 512}
 }
 response = requests.post(HUGGINGFACE_API_URL, headers=headers, json=payload)
-review = response.json()
 
 print("Status code:", response.status_code)
 print("Response text:", response.text[:500])  # mostra até 500 chars
+
+review = response.json()
 
 # --- 4. Postar comentário no PR ---
 comment_body = f"### 🤖 Code Review com IA\n\n{review}"
