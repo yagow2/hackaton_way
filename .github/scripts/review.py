@@ -9,7 +9,7 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 PR_NUMBER = os.getenv("PR_NUMBER")
 REPO = os.getenv("GITHUB_REPOSITORY")
 
-headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
+headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}", "Content-Type": "application/json"}
 
 # --- 1. Obter arquivos modificados no PR ---
 result = subprocess.run(
@@ -39,6 +39,10 @@ payload = {
     "parameters": {"max_new_tokens": 512}
 }
 response = requests.post(HUGGINGFACE_API_URL, headers=headers, json=payload)
+
+print("Status code:", response.status_code)
+print("Response text:", response.text[:500])  # mostra até 500 chars
+
 review = response.json()
 
 # --- 4. Postar comentário no PR ---
