@@ -9,10 +9,7 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 PR_NUMBER = os.getenv("PR_NUMBER")
 REPO = os.getenv("GITHUB_REPOSITORY")
 
-headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
-
-print('HUGGINGFACE_API_URL',HUGGINGFACE_API_URL)
-print(HUGGINGFACE_API_KEY)
+headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}", "Content-Type": "application/json"}
 
 # --- 1. Obter arquivos modificados no PR ---
 result = subprocess.run(
