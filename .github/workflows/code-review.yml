@@ -1,0 +1,39 @@
+name: Code Review AI (TypeScript)
+
+# Dispara apenas em Pull Requests
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checa o código
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # necessário para git diff completo
+          persist-credentials: true  # garante que o token do Actions seja usado
+
+      # 2️⃣ Configura Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3️⃣ Instala dependências
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      # 4️⃣ Executa a revisão com IA
+      - name: Run AI review
+        run: python .github/scripts/review.py
+        env:
+          HUGGINGFACE_API_URL: ${{ secrets.HUGGINGFACE_API_URL }}
+          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
