@@ -1,7 +1,6 @@
 import os
 import requests
 import subprocess
-import json
 
 # --- Configurações ---
 HUGGINGFACE_API_URL = os.getenv("HUGGINGFACE_API_URL") or '' # ex.: https://api-inference.huggingface.co/models/<modelo>
